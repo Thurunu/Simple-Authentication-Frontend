@@ -10,17 +10,35 @@ export default function Navbar() {
   const { userData, backendUrl, setuserData, setIsloggedin } =
     useContext(AppContext);
 
-    const logout = async () => {
-        try {
-            axios.defaults.withCredentials = true;
-            const {data} = await axios.post(backendUrl + '/api/auth/logout');
-            data.success && setIsloggedin(false);
-            data.success && setuserData(null);
-            navigate('/');
-        } catch (error) {
-            toast.error(error.message);
-        }
-    };
+  const logout = async () => {
+    try {
+      axios.defaults.withCredentials = true;
+      const { data } = await axios.post(backendUrl + "/api/auth/logout");
+      data.success && setIsloggedin(false);
+      data.success && setuserData(null);
+      navigate("/");
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const sendVerifyOtp = async () => {
+    try {
+      axios.defaults.withCredentials = true;
+      const { data } = await axios.post(
+        backendUrl + "/api/auth/send-verify-otp"
+      );
+
+      if (data.success) {
+        navigate("/email-verify");
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
   console.log("At Navbar", userData);
 
   return (
@@ -34,11 +52,17 @@ export default function Navbar() {
           <div className="absolute hidden group-hover:block bg-white border rounded shadow-lg top-0 right-0 z-10 p-2 text-black">
             <ul className="list-none m-0 p-2 bg-gray-100 text-sm">
               {!userData.isAccountVerified && (
-                <li className="cursor-pointer py-1 px-2 hover:bg-gray-200 whitespace-nowrap overflow-hidden text-ellipsis">
+                <li
+                  onClick={sendVerifyOtp}
+                  className="cursor-pointer py-1 px-2 hover:bg-gray-200 whitespace-nowrap overflow-hidden text-ellipsis"
+                >
                   Verify Email
                 </li>
               )}
-              <li onClick={logout} className="cursor-pointer py-1 px-2 pr-12 hover:bg-gray-200">
+              <li
+                onClick={logout}
+                className="cursor-pointer py-1 px-2 pr-12 hover:bg-gray-200"
+              >
                 Logout
               </li>
             </ul>

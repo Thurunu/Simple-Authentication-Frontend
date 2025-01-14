@@ -7,13 +7,17 @@ export const AppContext = createContext();
 export const AppContextProvider = (props) => {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
+  axios.defaults.withCredentials = true;
+
   const [isLoggedin, setIsloggedin] = useState(false);
   const [userData, setuserData] = useState(null);
 
   const getAuthState = async () => {
-
     try {
-      const { data } = await axios.post(`${backendUrl}/api/auth/is-auth`, {}, {withCredentials: true});
+      const { data } = await axios.post(
+        `${backendUrl}/api/auth/is-auth`,
+        {}
+      );
       console.log("Auth State Response:", data);
       if (data.success) {
         setIsloggedin(true);
@@ -32,7 +36,6 @@ export const AppContextProvider = (props) => {
     console.log("Fetching User Data");
     try {
       const { data } = await axios.get(`${backendUrl}/api/user/data`, {
-        withCredentials: true, // Same credentials flag as above
       });
       console.log("User Data Response:", data);
       if (data.success) {
