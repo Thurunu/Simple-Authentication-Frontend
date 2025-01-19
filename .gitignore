@@ -7,17 +7,55 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-./node_modules
+# Node modules and lock files
+node_modules/
 package-lock.json
+.pnp/
+.pnp.js
+
+# Dependency manager caches
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+.yarn/*.lock
+
+# Build output
+dist/
+out/
+export/
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# Environment variables
 .env
+
+# Test coverage
+coverage/
+
+# Temporary files
+*.tmp
+*.temp
+
+# macOS
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
